@@ -65,20 +65,15 @@ void blur(unsigned int height, unsigned short int pixel[512][512][3], int T, uns
 }
 
 Image rotacionar90direita(Image img) {
-    Image rotacionada;
-
-    rotacionada.width = img.height;
-    rotacionada.height = img.width;
-
-    for (unsigned int i = 0, y = 0; i < rotacionada.height; ++i, ++y) {
-        for (int j = rotacionada.width - 1, x = 0; j >= 0; --j, ++x) {
-            rotacionada.pixel[i][j][0] = img.pixel[x][y][0];
-            rotacionada.pixel[i][j][1] = img.pixel[x][y][1];
-            rotacionada.pixel[i][j][2] = img.pixel[x][y][2];
+    for (unsigned int i = 0, y = 0; i < img.width; ++i, ++y) {
+        for (int j = img.height - 1, x = 0; j >= 0; --j, ++x) {
+            img.pixel[i][j][0] = img.pixel[x][y][0];
+            img.pixel[i][j][1] = img.pixel[x][y][1];
+            img.pixel[i][j][2] = img.pixel[x][y][2];
         }
     }
 
-    return rotacionada;
+    return img;
 }
 
 void inverter_cores(unsigned short int pixel[512][512][3],
