@@ -88,20 +88,17 @@ void inverter_cores(unsigned short int pixel[512][512][3],
 }
 
 Image cortar_imagem(Image img, int x, int y, int width, int height) {
-    Image cortada;
-
-    cortada.width = width;
-    cortada.height = height;
-
+    img.width = width;
+    img.height = height;
     for(int i = 0; i < height; ++i) {
         for(int j = 0; j < width; ++j) {
-            cortada.pixel[i][j][0] = img.pixel[i + y][j + x][0];
-            cortada.pixel[i][j][1] = img.pixel[i + y][j + x][1];
-            cortada.pixel[i][j][2] = img.pixel[i + y][j + x][2];
+            img.pixel[i][j][0] = img.pixel[i + y][j + x][0];
+            img.pixel[i][j][1] = img.pixel[i + y][j + x][1];
+            img.pixel[i][j][2] = img.pixel[i + y][j + x][2];
         }
     }
 
-    return cortada;
+    return img;
 }
 
 int main() {
