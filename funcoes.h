@@ -46,7 +46,15 @@ Image filtro_sepia(Image img){
   return img;
 }
 
-Image espelhamento(Image img, int horizontal, int height, int width){
+Image espelhamento(Image img){
+  int horizontal = 0;
+  scanf("%d", &horizontal);
+
+  int width = img.width, height = img.height;
+
+  if (horizontal == 1) width /= 2;
+  else height /= 2;
+
   for (int i2 = 0; i2 < height; ++i2) {
     for (int j = 0; j < width; ++j) {
       int x = i2, y = j;
@@ -88,64 +96,83 @@ Image escala_de_cinza(Image img) {
   return img;
 }
 
-void blur(unsigned int height, unsigned short int pixel[512][512][3], int T, unsigned int width) {
-  for (unsigned int i = 0; i < height; ++i) {
-    for (unsigned int j = 0; j < width; ++j) {
+Image blur(Image img) {
+  int tamanho = 0;
+  scanf("%d", &tamanho);
+
+  Image blur = img;
+  for (unsigned int i = 0; i < blur.height; ++i) {
+    for (unsigned int j = 0; j < blur.width; ++j) {
       Pixel media = {0, 0, 0};
 
-      int menor_h = menor(height-1, (i + T/2));
-      int min_w = menor(width-1, (j + T/2));
+      int menor_h = menor(blur.height-1, (i + tamanho/2));
+      int min_w = menor(blur.width-1, (j + tamanho/2));
 
-      //Expressao (0 > j - T/2 ? 0 : j - T/2) sempre retornara falso
-      for(int x = (i - T/2); x <= menor_h; ++x) {
-        for(int y =  (j - T/2) ; y <= min_w; ++y) {
-          media.r += pixel[x][y][0];
-          media.g += pixel[x][y][1];
-          media.b += pixel[x][y][2];
+      for(int x = (i - tamanho/2); x <= menor_h; ++x) {
+        for(int y =  (j - tamanho/2) ; y <= min_w; ++y) {
+          media.r += blur.pixel[x][y][0];
+          media.g += blur.pixel[x][y][1];
+          media.b += blur.pixel[x][y][2];
         }
       }
 
-      media.r /= T * T;
-      media.g /= T * T;
-      media.b /= T * T;
+      media.r /= tamanho * tamanho;
+      media.g /= tamanho * tamanho;
+      media.b /= tamanho * tamanho;
 
-      pixel[i][j][0] = media.r;
-      pixel[i][j][1] = media.g;
-      pixel[i][j][2] = media.b;
+      blur.pixel[i][j][0] = media.r;
+      blur.pixel[i][j][1] = media.g;
+      blur.pixel[i][j][2] = media.b;
     }
   }
+
+  return blur;
 }
 
 Image rotacionar90direita(Image img) {
-  Image rotacionada;
-  int height = img.height;
-  int width = img.width;
 
-  rotacionada.height = img.width;
-  rotacionada.width = img.height;
-  for (unsigned int i = 0, y = 0; i < width; ++i, ++y) {
-    for (int j = height - 1, x = 0; j >= 0; --j, ++x) {
-      rotacionada.pixel[i][j][0] = img.pixel[x][y][0];
-      rotacionada.pixel[i][j][1] = img.pixel[x][y][1];
-      rotacionada.pixel[i][j][2] = img.pixel[x][y][2];
+  int quantas_vezes = 0;
+  scanf("%d", &quantas_vezes);
+  quantas_vezes %= 4;
+  Image rotacionada;
+
+  for (int j = 0; j < quantas_vezes; ++j) {
+    int height = img.height;
+    int width = img.width;
+
+    rotacionada.height = img.width;
+    rotacionada.width = img.height;
+    for (unsigned int i = 0, y = 0; i < width; ++i, ++y) {
+      for (int j = height - 1, x = 0; j >= 0; --j, ++x) {
+        rotacionada.pixel[i][j][0] = img.pixel[x][y][0];
+        rotacionada.pixel[i][j][1] = img.pixel[x][y][1];
+        rotacionada.pixel[i][j][2] = img.pixel[x][y][2];
+      }
     }
   }
 
   return rotacionada;
 }
 
-void inverter_cores(unsigned short int pixel[512][512][3],
-  unsigned int width, unsigned int height) {
-    for (unsigned int i = 0; i < height; ++i) {
-      for (unsigned int j = 0; j < width; ++j) {
-        pixel[i][j][0] = 255 - pixel[i][j][0];
-        pixel[i][j][1] = 255 - pixel[i][j][1];
-        pixel[i][j][2] = 255 - pixel[i][j][2];
+Image inverter_cores(Image img) {
+    Image invertida = img;
+    for (unsigned int i = 0; i < invertida.height; ++i) {
+      for (unsigned int j = 0; j < invertida.width; ++j) {
+        invertida.pixel[i][j][0] = 255 - invertida.pixel[i][j][0];
+        invertida.pixel[i][j][1] = 255 - invertida.pixel[i][j][1];
+        invertida.pixel[i][j][2] = 255 - invertida.pixel[i][j][2];
       }
     }
+
+    return invertida;
   }
 
-  Image cortar_imagem(Image img, int x, int y, int width, int height) {
+  Image cortar_imagem(Image img) {
+    int x, y;
+    scanf("%d %d", &x, &y);
+    int width, height;
+    scanf("%d %d", &width, &height);
+
     img.width = width;
     img.height = height;
     for(int i = 0; i < height; ++i) {

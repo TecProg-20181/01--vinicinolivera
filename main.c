@@ -34,43 +34,23 @@ int main() {
         break;
       }
       case 3: { // Blur
-        int tamanho = 0;
-        scanf("%d", &tamanho);
-        blur(img.height, img.pixel, tamanho, img.width);
+        img = blur(img);
         break;
       }
       case 4: { // Rotacao
-        int quantas_vezes = 0;
-        scanf("%d", &quantas_vezes);
-        quantas_vezes %= 4;
-        for (int j = 0; j < quantas_vezes; ++j) {
           img = rotacionar90direita(img);
-        }
         break;
       }
       case 5: { // Espelhamento
-        int horizontal = 0;
-        scanf("%d", &horizontal);
-
-        int width = img.width, height = img.height;
-
-        if (horizontal == 1) width /= 2;
-        else height /= 2;
-
-        img = espelhamento(img, horizontal, height, width);
+        img = espelhamento(img);
         break;
       }
       case 6: { // Inversao de Cores
-        inverter_cores(img.pixel, img.width, img.height);
+        img = inverter_cores(img);
         break;
       }
       case 7: { // Cortar Imagem
-        int x, y;
-        scanf("%d %d", &x, &y);
-        int width, height;
-        scanf("%d %d", &width, &height);
-
-        img = cortar_imagem(img, x, y, width, height);
+        img = cortar_imagem(img);
         break;
       }
     }
@@ -87,6 +67,6 @@ int main() {
     }
     printf("\n");
   }
-  
+
   return 0;
 }
