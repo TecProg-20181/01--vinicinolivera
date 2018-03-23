@@ -1,24 +1,19 @@
 #include <stdio.h>
 #include "funcoes.h"
 
-//Main principal da aplicacao
 int main() {
   Image img;
 
   char p3[4];
   scanf("%s", p3);
-
-  // read width height and color of image
   int max_color;
   scanf("%u %u %d", &img.width, &img.height, &max_color);
 
-  // read all pixels of image
   for (unsigned int i = 0; i < img.height; ++i) {
     for (unsigned int j = 0; j < img.width; ++j) {
       scanf("%hu %hu %hu", &img.pixel[i][j][0],
       &img.pixel[i][j][1],
       &img.pixel[i][j][2]);
-
     }
   }
 
@@ -30,7 +25,7 @@ int main() {
     scanf("%d", &opcao);
 
     switch(opcao) {
-      case 1: { // Escala de Cinza
+      case 1: { //Escala de Cinza
         img = escala_de_cinza(img);
         break;
       }
@@ -79,23 +74,19 @@ int main() {
         break;
       }
     }
-
   }
 
-  // print type of image
   printf("P3\n");
-  // print width height and color of image
   printf("%u %u\n255\n", img.width, img.height);
 
-  // print pixels of image
   for (unsigned int i = 0; i < img.height; ++i) {
     for (unsigned int j = 0; j < img.width; ++j) {
       printf("%hu %hu %hu ", img.pixel[i][j][0],
       img.pixel[i][j][1],
       img.pixel[i][j][2]);
-
     }
     printf("\n");
   }
+  
   return 0;
 }
